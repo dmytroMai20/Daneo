@@ -1,5 +1,14 @@
-# Vite + React + Bootstrap / Radix UI Frontend
-Simple minimal frontend
+# Frontend
+
+## Design
+- Figma
+- Radix UI
+
+## Tech Stack
+- Vite
+- React
+- Bootstrap / Radix UI
+
 ## Testing
 
 ### Unit testing

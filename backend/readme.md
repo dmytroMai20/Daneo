@@ -6,6 +6,10 @@
 
 ## Database: Supabase
 
+pgx for DB interactions (best performance & flexibility).
+
+Supabase SDK only for auth + storage if you use those features.
+
 ## GraphQL: gqlgen
 
 ## Linter: golangci-lint
