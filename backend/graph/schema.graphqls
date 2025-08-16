@@ -1,0 +1,182 @@
+# GraphQL schema for Peer-to-Peer Loan Platform
+
+scalar Time
+
+# User Types
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  creditScore: Int
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type LoanRequest {
+  id: ID!
+  user: User!
+  amount: Float!
+  purpose: String
+  status: LoanStatus!
+  term: Int!  # in months
+  interestRate: Float  # expected max interest rate
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type LoanOffer {
+  id: ID!
+  lender: User!
+  amount: Float!
+  interestRate: Float!
+  term: Int!  # in months
+  status: OfferStatus!
+  expiresAt: Time!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Loan {
+  id: ID!
+  borrower: User!
+  lender: User!
+  amount: Float!
+  interestRate: Float!
+  term: Int!  # in months
+  status: LoanStatus!
+  payments: [Payment!]!
+  nextPaymentDue: Time
+  remainingBalance: Float!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Payment {
+  id: ID!
+  loan: Loan!
+  amount: Float!
+  dueDate: Time!
+  status: PaymentStatus!
+  paidAt: Time
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+# Enums
+enum LoanStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  DEFAULTED
+  CANCELLED
+}
+
+enum OfferStatus {
+  OPEN
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  WITHDRAWN
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  LATE
+  PARTIALLY_PAID
+  CANCELLED
+}
+
+# Input Types
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input CreateLoanRequestInput {
+  amount: Float!
+  purpose: String
+  term: Int!
+  maxInterestRate: Float
+}
+
+input CreateLoanOfferInput {
+  amount: Float!
+  interestRate: Float!
+  term: Int!
+  expiresAt: Time!
+}
+
+input AcceptLoanOfferInput {
+  offerId: ID!
+}
+
+input MakePaymentInput {
+  loanId: ID!
+  amount: Float!
+}
+
+# Response Types
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type LoanMatch {
+  request: LoanRequest!
+  offers: [LoanOffer!]!
+}
+
+# Queries & Mutations
+type Query {
+  # Auth
+  me: User
+  
+  # Loans
+  myLoanRequests: [LoanRequest!]!
+  myLoanOffers: [LoanOffer!]!
+  myActiveLoans: [Loan!]!
+  
+  # Marketplace
+  availableLoanRequests: [LoanRequest!]!
+  availableLoanOffers: [LoanOffer!]!
+  
+  # Admin
+  allLoans: [Loan!]!  # Admin only
+  allUsers: [User!]!  # Admin only
+}
+
+type Mutation {
+  # Auth
+  register(input: RegisterInput!): AuthResponse!
+  login(input: LoginInput!): AuthResponse!
+  
+  # Loan Requests
+  createLoanRequest(input: CreateLoanRequestInput!): LoanRequest!
+  cancelLoanRequest(requestId: ID!): Boolean!
+  
+  # Loan Offers
+  createLoanOffer(input: CreateLoanOfferInput!): LoanOffer!
+  cancelLoanOffer(offerId: ID!): Boolean!
+  
+  # Loan Actions
+  acceptLoanOffer(input: AcceptLoanOfferInput!): Loan!
+  makePayment(input: MakePaymentInput!): Payment!
+  
+  # Admin
+  updateUserStatus(userId: ID!, active: Boolean!): User!  # Admin only
+}
+
+type Subscription {
+  # Real-time updates
+  loanRequestCreated: LoanRequest!
+  loanOfferCreated: LoanOffer!
+  loanStatusChanged(loanId: ID!): Loan!
+  paymentReceived(loanId: ID!): Payment!
+}
