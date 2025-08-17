@@ -10,6 +10,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/dmytroMai20/Daneo/db"
 	"github.com/dmytroMai20/Daneo/graph"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -17,12 +18,18 @@ import (
 const defaultPort = "8080"
 
 func main() {
+	// Initialize database connection
+	db.ConnectDB()
+	defer db.Pool.Close()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	resolver := graph.NewResolver(db.Pool)
+
+	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
