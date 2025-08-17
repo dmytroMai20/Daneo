@@ -13,6 +13,7 @@ Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
 - Router: Gin
 - Authentication: JWT
 - Linter: golangci-lint
+- development environment: docker
 
 ## Features
 
@@ -28,3 +29,9 @@ Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
 - User transaction import
 - User transaction export to CSV
 - User transaction import from CSV
+
+
+# Daneo Venture (potential extension)
+
+Platform for VC funds to manage their portfolio. Track investments, monitor performance, and make informed decisions.
+Integrates seamlessly with Daneo, allowing users to manage their investments and transactions in one place.
