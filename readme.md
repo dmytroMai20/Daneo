@@ -15,6 +15,14 @@ Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
 - Linter: golangci-lint
 - development environment: docker
 
+## Deployment
+
+- Docker
+- Supabase
+- AWS Amplify for frontend
+- AWS Lambda for backend
+- AWS API Gateway for API
+
 ## Features
 
 - User registration and login
