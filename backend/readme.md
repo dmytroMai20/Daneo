@@ -8,7 +8,7 @@
 
 pgx for DB interactions (best performance & flexibility).
 
-Supabase SDK only for auth + storage if you use those features.
+Supabase SDK only for auth
 
 ## GraphQL: gqlgen
 
@@ -23,5 +23,3 @@ Backend applies business logic + filtering.
 Backend emits GraphQL subscriptions to frontend clients.
 
 Keeps DB private.
-
-Clients only see the shaped data they’re allowed to.

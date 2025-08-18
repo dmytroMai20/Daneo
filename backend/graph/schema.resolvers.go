@@ -23,7 +23,48 @@ func (r *mutationResolver) Login(ctx context.Context, input model.LoginInput) (*
 
 // CreateLoanRequest is the resolver for the createLoanRequest field.
 func (r *mutationResolver) CreateLoanRequest(ctx context.Context, input model.CreateLoanRequestInput) (*model.LoanRequest, error) {
-	panic(fmt.Errorf("not implemented: CreateLoanRequest - createLoanRequest"))
+	// Get the current user from context (assuming authentication middleware sets this)
+	userID := "user123" // This should be replaced with actual user ID from context
+
+	// Start a transaction
+	tx, err := r.DB.Begin(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to begin transaction: %v", err)
+	}
+	defer tx.Rollback(ctx)
+
+	// Insert the loan request into the database
+	var loanRequest model.LoanRequest
+	err = tx.QueryRow(ctx, `
+		INSERT INTO loan_requests (user_id, amount, purpose, term, interest_rate, status)
+		VALUES ($1, $2, $3, $4, $5, 'PENDING')
+		RETURNING id, created_at, updated_at
+	`, userID, input.Amount, input.Purpose, input.Term, input.MaxInterestRate).
+		Scan(&loanRequest.ID, &loanRequest.CreatedAt, &loanRequest.UpdatedAt)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to create loan request: %v", err)
+	}
+
+	// Commit the transaction
+	if err := tx.Commit(ctx); err != nil {
+		return nil, fmt.Errorf("failed to commit transaction: %v", err)
+	}
+
+	// Set the remaining fields
+	loanRequest.Amount = input.Amount
+	loanRequest.Purpose = input.Purpose
+	loanRequest.Term = input.Term
+	loanRequest.InterestRate = input.MaxInterestRate
+	loanRequest.Status = model.LoanStatusPending
+
+	// In a real implementation, you would fetch the user details here
+	loanRequest.User = &model.User{
+		ID: userID,
+		// Other user fields would be populated from the database
+	}
+
+	return &loanRequest, nil
 }
 
 // CancelLoanRequest is the resolver for the cancelLoanRequest field.
@@ -128,18 +169,3 @@ func (r *Resolver) Subscription() SubscriptionResolver { return &subscriptionRes
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type subscriptionResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-/*
-	func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
-}
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
-}
-*/
