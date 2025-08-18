@@ -12,13 +12,18 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/dmytroMai20/Daneo/db"
 	"github.com/dmytroMai20/Daneo/graph"
+	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
 const defaultPort = "8080"
 
 func main() {
-	// Initialize database connection
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: No .env file found, using system environment variables")
+	}
 	db.ConnectDB()
 	defer db.Pool.Close()
 

@@ -27,10 +27,10 @@ type CreateLoanOfferInput struct {
 }
 
 type CreateLoanRequestInput struct {
-	Amount          float64  `json:"amount"`
-	Purpose         *string  `json:"purpose,omitempty"`
-	Term            int32    `json:"term"`
-	MaxInterestRate *float64 `json:"maxInterestRate,omitempty"`
+	Amount          float64   `json:"amount"`
+	Purpose         *string   `json:"purpose,omitempty"`
+	Term            time.Time `json:"term"`
+	MaxInterestRate *float64  `json:"maxInterestRate,omitempty"`
 }
 
 type Loan struct {
@@ -71,7 +71,7 @@ type LoanRequest struct {
 	Amount       float64    `json:"amount"`
 	Purpose      *string    `json:"purpose,omitempty"`
 	Status       LoanStatus `json:"status"`
-	Term         int32      `json:"term"`
+	Term         time.Time  `json:"term"`
 	InterestRate *float64   `json:"interestRate,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt"`
 	UpdatedAt    time.Time  `json:"updatedAt"`

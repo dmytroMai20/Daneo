@@ -18,7 +18,7 @@ type LoanRequest {
   amount: Float!
   purpose: String
   status: LoanStatus!
-  term: Int!  # in months
+  term: Time!  # in months
   interestRate: Float  # expected max interest rate
   createdAt: Time!
   updatedAt: Time!
@@ -102,7 +102,7 @@ input LoginInput {
 input CreateLoanRequestInput {
   amount: Float!
   purpose: String
-  term: Int!
+  term: Time!
   maxInterestRate: Float
 }
 

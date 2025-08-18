@@ -2539,9 +2539,9 @@ func (ec *executionContext) _LoanRequest_term(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int32)
+	res := resTmp.(time.Time)
 	fc.Result = res
-	return ec.marshalNInt2int32(ctx, field.Selections, res)
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_LoanRequest_term(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2551,7 +2551,7 @@ func (ec *executionContext) fieldContext_LoanRequest_term(_ context.Context, fie
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -6961,7 +6961,7 @@ func (ec *executionContext) unmarshalInputCreateLoanRequestInput(ctx context.Con
 			it.Purpose = data
 		case "term":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("term"))
-			data, err := ec.unmarshalNInt2int32(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
