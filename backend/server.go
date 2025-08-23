@@ -1,8 +1,8 @@
 package main
 
 import (
+	"context"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -12,28 +12,23 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/dmytroMai20/Daneo/db"
 	"github.com/dmytroMai20/Daneo/graph"
+	"github.com/dmytroMai20/Daneo/models"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
 const defaultPort = "8080"
 
-func main() {
-	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Warning: No .env file found, using system environment variables")
+func playgroundHandler() gin.HandlerFunc {
+	h := playground.Handler("GraphQL", "/query")
+
+	return func(c *gin.Context) {
+		h.ServeHTTP(c.Writer, c.Request)
 	}
-	db.ConnectDB()
-	defer db.Pool.Close()
+}
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = defaultPort
-	}
-
-	resolver := graph.NewResolver(db.Pool)
-
+func graphqlHandler(resolver *graph.Resolver) gin.HandlerFunc {
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
 
 	srv.AddTransport(transport.Options{})
@@ -47,9 +42,39 @@ func main() {
 		Cache: lru.New[string](100),
 	})
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	return func(c *gin.Context) {
+		ctx := context.WithValue(c.Request.Context(), models.DBContextKey, db.Pool)
+		c.Request = c.Request.WithContext(ctx)
+		srv.ServeHTTP(c.Writer, c.Request)
+	}
+}
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: No .env file found, using system environment variables")
+	}
+	db.ConnectDB()
+	defer db.Pool.Close()
+
+	r := gin.Default()
+
+	resolver := graph.NewResolver(db.Pool)
+
+	r.POST("/query", graphqlHandler(resolver))
+	r.GET("/", playgroundHandler())
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+	}
+
+	log.Printf("Server running on port %s", port)
+
+	// Start the server
+	err = r.Run(":" + port)
+	if err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
+
 }

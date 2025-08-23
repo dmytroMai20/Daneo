@@ -11,7 +11,7 @@ import (
 var Pool *pgxpool.Pool
 
 func ConnectDB() {
-	dsn := os.Getenv("SUPABASE_DB_URL") // store your URL in env var
+	dsn := os.Getenv("SUPABASE_DB_POOLER_URL")
 	config, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
 		log.Fatalf("Unable to parse config: %v", err)
