@@ -9,6 +9,8 @@ import (
 	"fmt"
 
 	"github.com/dmytroMai20/Daneo/graph/model"
+	"github.com/dmytroMai20/Daneo/models"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // Register is the resolver for the register field.
@@ -23,17 +25,24 @@ func (r *mutationResolver) Login(ctx context.Context, input model.LoginInput) (*
 
 // CreateLoanRequest is the resolver for the createLoanRequest field.
 func (r *mutationResolver) CreateLoanRequest(ctx context.Context, input model.CreateLoanRequestInput) (*model.LoanRequest, error) {
-	// Get the current user from context (assuming authentication middleware sets this)
-	userID := "user123" // This should be replaced with actual user ID from context
+	pool, ok := ctx.Value(models.DBContextKey).(*pgxpool.Pool)
+	if !ok || pool == nil {
+		return nil, fmt.Errorf("database connection not available")
+	}
 
-	// Start a transaction
-	tx, err := r.DB.Begin(ctx)
+	// Get user ID from context (assuming it's set by auth middleware)
+	//userID, ok := ctx.Value("userID").(string)
+	//if !ok {
+	//	return nil, fmt.Errorf("user not authenticated")
+	//}
+	userID := "1"
+
+	tx, err := pool.Begin(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to begin transaction: %v", err)
 	}
 	defer tx.Rollback(ctx)
 
-	// Insert the loan request into the database
 	var loanRequest model.LoanRequest
 	err = tx.QueryRow(ctx, `
 		INSERT INTO loan_requests (user_id, amount, purpose, term, interest_rate, status)
@@ -46,19 +55,16 @@ func (r *mutationResolver) CreateLoanRequest(ctx context.Context, input model.Cr
 		return nil, fmt.Errorf("failed to create loan request: %v", err)
 	}
 
-	// Commit the transaction
 	if err := tx.Commit(ctx); err != nil {
 		return nil, fmt.Errorf("failed to commit transaction: %v", err)
 	}
 
-	// Set the remaining fields
 	loanRequest.Amount = input.Amount
 	loanRequest.Purpose = input.Purpose
 	loanRequest.Term = input.Term
 	loanRequest.InterestRate = input.MaxInterestRate
 	loanRequest.Status = model.LoanStatusPending
 
-	// In a real implementation, you would fetch the user details here
 	loanRequest.User = &model.User{
 		ID: userID,
 		// Other user fields would be populated from the database
