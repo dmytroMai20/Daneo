@@ -36,23 +36,25 @@ const DashboardContent: React.FC = () => {
   if (loanRequests.length === 0) {
     return (
       <div className="text-center p-8">
-        <p className="text-gray-500">No loan requests available at the moment.</p>
+        <p className="text-gray-500">
+          No loan requests available at the moment.
+        </p>
       </div>
     );
   }
 
-  return (  
+  return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto p-4">
       {loanRequests.map((request: any) => (
-        <DashboardContentCard 
-          key={request.id} 
+        <DashboardContentCard
+          key={request.id}
           loanRequest={{
             ...request,
             user: {
               id: request.user.id,
               name: request.user.name || `User ${request.user.id}`,
-              rating: request.user.rating
-            }
+              rating: request.user.rating,
+            },
           }}
           onLend={handleLend}
         />

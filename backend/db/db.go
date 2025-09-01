@@ -16,7 +16,6 @@ func ConnectDB() {
 	if err != nil {
 		log.Fatalf("Unable to parse config: %v", err)
 	}
-	config.ConnConfig.DefaultQueryExecMode = 0x0001 // Simple protocol mode
 
 	Pool, err = pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {

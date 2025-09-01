@@ -1,13 +1,13 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8080/query',
-  credentials: 'include', // Include credentials (cookies) in the request
+  uri: "http://localhost:8080/query",
+  credentials: "include", // Include credentials (cookies) in the request
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  }
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -18,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       // authorization: token ? `Bearer ${token}` : "",
-    }
+    },
   };
 });
 
@@ -27,7 +27,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'cache-first',
+      fetchPolicy: "cache-first",
     },
   },
 });
