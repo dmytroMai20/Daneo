@@ -55,19 +55,34 @@ type ComplexityRoot struct {
 		User  func(childComplexity int) int
 	}
 
+	Installment struct {
+		Amount    func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		DueDate   func(childComplexity int) int
+		Interest  func(childComplexity int) int
+		PaidAt    func(childComplexity int) int
+		Principal func(childComplexity int) int
+		Status    func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
+	}
+
 	Loan struct {
-		Amount           func(childComplexity int) int
-		Borrower         func(childComplexity int) int
-		CreatedAt        func(childComplexity int) int
-		ID               func(childComplexity int) int
-		InterestRate     func(childComplexity int) int
-		Lender           func(childComplexity int) int
-		NextPaymentDue   func(childComplexity int) int
-		Payments         func(childComplexity int) int
-		RemainingBalance func(childComplexity int) int
-		Status           func(childComplexity int) int
-		Term             func(childComplexity int) int
-		UpdatedAt        func(childComplexity int) int
+		Amount             func(childComplexity int) int
+		Borrower           func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		Installments       func(childComplexity int) int
+		InterestRate       func(childComplexity int) int
+		Lender             func(childComplexity int) int
+		NextPaymentDue     func(childComplexity int) int
+		Payments           func(childComplexity int) int
+		RemainingBalance   func(childComplexity int) int
+		RepaymentFrequency func(childComplexity int) int
+		Status             func(childComplexity int) int
+		Term               func(childComplexity int) int
+		TotalInterest      func(childComplexity int) int
+		TotalRepayment     func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
 	}
 
 	LoanMatch struct {
@@ -76,27 +91,29 @@ type ComplexityRoot struct {
 	}
 
 	LoanOffer struct {
-		Amount       func(childComplexity int) int
-		CreatedAt    func(childComplexity int) int
-		ExpiresAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		InterestRate func(childComplexity int) int
-		Lender       func(childComplexity int) int
-		Status       func(childComplexity int) int
-		Term         func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
+		Amount             func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		ExpiresAt          func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		InterestRate       func(childComplexity int) int
+		Lender             func(childComplexity int) int
+		RepaymentFrequency func(childComplexity int) int
+		Status             func(childComplexity int) int
+		Term               func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
 	}
 
 	LoanRequest struct {
-		Amount       func(childComplexity int) int
-		CreatedAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		InterestRate func(childComplexity int) int
-		Purpose      func(childComplexity int) int
-		Status       func(childComplexity int) int
-		Term         func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
-		User         func(childComplexity int) int
+		Amount             func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		InterestRate       func(childComplexity int) int
+		Purpose            func(childComplexity int) int
+		RepaymentFrequency func(childComplexity int) int
+		Status             func(childComplexity int) int
+		Term               func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
+		User               func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -112,14 +129,15 @@ type ComplexityRoot struct {
 	}
 
 	Payment struct {
-		Amount    func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		DueDate   func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Loan      func(childComplexity int) int
-		PaidAt    func(childComplexity int) int
-		Status    func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		Amount      func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		DueDate     func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Installment func(childComplexity int) int
+		Loan        func(childComplexity int) int
+		PaidAt      func(childComplexity int) int
+		Status      func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	Query struct {
@@ -211,6 +229,62 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.AuthResponse.User(childComplexity), true
 
+	case "Installment.amount":
+		if e.complexity.Installment.Amount == nil {
+			break
+		}
+
+		return e.complexity.Installment.Amount(childComplexity), true
+
+	case "Installment.createdAt":
+		if e.complexity.Installment.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Installment.CreatedAt(childComplexity), true
+
+	case "Installment.dueDate":
+		if e.complexity.Installment.DueDate == nil {
+			break
+		}
+
+		return e.complexity.Installment.DueDate(childComplexity), true
+
+	case "Installment.interest":
+		if e.complexity.Installment.Interest == nil {
+			break
+		}
+
+		return e.complexity.Installment.Interest(childComplexity), true
+
+	case "Installment.paidAt":
+		if e.complexity.Installment.PaidAt == nil {
+			break
+		}
+
+		return e.complexity.Installment.PaidAt(childComplexity), true
+
+	case "Installment.principal":
+		if e.complexity.Installment.Principal == nil {
+			break
+		}
+
+		return e.complexity.Installment.Principal(childComplexity), true
+
+	case "Installment.status":
+		if e.complexity.Installment.Status == nil {
+			break
+		}
+
+		return e.complexity.Installment.Status(childComplexity), true
+
+	case "Installment.updatedAt":
+		if e.complexity.Installment.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.Installment.UpdatedAt(childComplexity), true
+
 	case "Loan.amount":
 		if e.complexity.Loan.Amount == nil {
 			break
@@ -238,6 +312,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Loan.ID(childComplexity), true
+
+	case "Loan.installments":
+		if e.complexity.Loan.Installments == nil {
+			break
+		}
+
+		return e.complexity.Loan.Installments(childComplexity), true
 
 	case "Loan.interestRate":
 		if e.complexity.Loan.InterestRate == nil {
@@ -274,6 +355,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Loan.RemainingBalance(childComplexity), true
 
+	case "Loan.repaymentFrequency":
+		if e.complexity.Loan.RepaymentFrequency == nil {
+			break
+		}
+
+		return e.complexity.Loan.RepaymentFrequency(childComplexity), true
+
 	case "Loan.status":
 		if e.complexity.Loan.Status == nil {
 			break
@@ -287,6 +375,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Loan.Term(childComplexity), true
+
+	case "Loan.totalInterest":
+		if e.complexity.Loan.TotalInterest == nil {
+			break
+		}
+
+		return e.complexity.Loan.TotalInterest(childComplexity), true
+
+	case "Loan.totalRepayment":
+		if e.complexity.Loan.TotalRepayment == nil {
+			break
+		}
+
+		return e.complexity.Loan.TotalRepayment(childComplexity), true
 
 	case "Loan.updatedAt":
 		if e.complexity.Loan.UpdatedAt == nil {
@@ -351,6 +453,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.LoanOffer.Lender(childComplexity), true
 
+	case "LoanOffer.repaymentFrequency":
+		if e.complexity.LoanOffer.RepaymentFrequency == nil {
+			break
+		}
+
+		return e.complexity.LoanOffer.RepaymentFrequency(childComplexity), true
+
 	case "LoanOffer.status":
 		if e.complexity.LoanOffer.Status == nil {
 			break
@@ -406,6 +515,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.LoanRequest.Purpose(childComplexity), true
+
+	case "LoanRequest.repaymentFrequency":
+		if e.complexity.LoanRequest.RepaymentFrequency == nil {
+			break
+		}
+
+		return e.complexity.LoanRequest.RepaymentFrequency(childComplexity), true
 
 	case "LoanRequest.status":
 		if e.complexity.LoanRequest.Status == nil {
@@ -570,6 +686,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Payment.ID(childComplexity), true
+
+	case "Payment.installment":
+		if e.complexity.Payment.Installment == nil {
+			break
+		}
+
+		return e.complexity.Payment.Installment(childComplexity), true
 
 	case "Payment.loan":
 		if e.complexity.Payment.Loan == nil {
@@ -1173,6 +1296,355 @@ func (ec *executionContext) fieldContext_AuthResponse_user(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Installment_dueDate(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_dueDate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DueDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_dueDate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_amount(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_amount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Amount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_amount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_principal(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_principal(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Principal, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_principal(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_interest(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_interest(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Interest, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_interest(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_status(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.PaymentStatus)
+	fc.Result = res
+	return ec.marshalNPaymentStatus2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐPaymentStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type PaymentStatus does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_paidAt(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_paidAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PaidAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_paidAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Installment_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Installment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Installment_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Installment_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Installment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Loan_id(ctx context.Context, field graphql.CollectedField, obj *model.Loan) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Loan_id(ctx, field)
 	if err != nil {
@@ -1560,6 +2032,8 @@ func (ec *executionContext) fieldContext_Loan_payments(_ context.Context, field 
 				return ec.fieldContext_Payment_status(ctx, field)
 			case "paidAt":
 				return ec.fieldContext_Payment_paidAt(ctx, field)
+			case "installment":
+				return ec.fieldContext_Payment_installment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Payment_createdAt(ctx, field)
 			case "updatedAt":
@@ -1644,6 +2118,200 @@ func (ec *executionContext) _Loan_remainingBalance(ctx context.Context, field gr
 }
 
 func (ec *executionContext) fieldContext_Loan_remainingBalance(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Loan",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Loan_repaymentFrequency(ctx context.Context, field graphql.CollectedField, obj *model.Loan) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RepaymentFrequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.RepaymentFrequency)
+	fc.Result = res
+	return ec.marshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Loan_repaymentFrequency(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Loan",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type RepaymentFrequency does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Loan_installments(ctx context.Context, field graphql.CollectedField, obj *model.Loan) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Loan_installments(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Installments, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Installment)
+	fc.Result = res
+	return ec.marshalNInstallment2ᚕᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallmentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Loan_installments(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Loan",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "dueDate":
+				return ec.fieldContext_Installment_dueDate(ctx, field)
+			case "amount":
+				return ec.fieldContext_Installment_amount(ctx, field)
+			case "principal":
+				return ec.fieldContext_Installment_principal(ctx, field)
+			case "interest":
+				return ec.fieldContext_Installment_interest(ctx, field)
+			case "status":
+				return ec.fieldContext_Installment_status(ctx, field)
+			case "paidAt":
+				return ec.fieldContext_Installment_paidAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Installment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Installment_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Installment", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Loan_totalInterest(ctx context.Context, field graphql.CollectedField, obj *model.Loan) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Loan_totalInterest(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalInterest, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Loan_totalInterest(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Loan",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Loan_totalRepayment(ctx context.Context, field graphql.CollectedField, obj *model.Loan) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Loan_totalRepayment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalRepayment, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Loan_totalRepayment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Loan",
 		Field:      field,
@@ -1797,6 +2465,8 @@ func (ec *executionContext) fieldContext_LoanMatch_request(_ context.Context, fi
 				return ec.fieldContext_LoanRequest_term(ctx, field)
 			case "interestRate":
 				return ec.fieldContext_LoanRequest_interestRate(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_LoanRequest_createdAt(ctx, field)
 			case "updatedAt":
@@ -1857,6 +2527,8 @@ func (ec *executionContext) fieldContext_LoanMatch_offers(_ context.Context, fie
 				return ec.fieldContext_LoanOffer_interestRate(ctx, field)
 			case "term":
 				return ec.fieldContext_LoanOffer_term(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
 			case "status":
 				return ec.fieldContext_LoanOffer_status(ctx, field)
 			case "expiresAt":
@@ -2101,6 +2773,50 @@ func (ec *executionContext) fieldContext_LoanOffer_term(_ context.Context, field
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoanOffer_repaymentFrequency(ctx context.Context, field graphql.CollectedField, obj *model.LoanOffer) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RepaymentFrequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.RepaymentFrequency)
+	fc.Result = res
+	return ec.marshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoanOffer_repaymentFrequency(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoanOffer",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type RepaymentFrequency does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2539,9 +3255,9 @@ func (ec *executionContext) _LoanRequest_term(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(time.Time)
+	res := resTmp.(int32)
 	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+	return ec.marshalNInt2int32(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_LoanRequest_term(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2551,7 +3267,7 @@ func (ec *executionContext) fieldContext_LoanRequest_term(_ context.Context, fie
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2593,6 +3309,50 @@ func (ec *executionContext) fieldContext_LoanRequest_interestRate(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoanRequest_repaymentFrequency(ctx context.Context, field graphql.CollectedField, obj *model.LoanRequest) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RepaymentFrequency, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.RepaymentFrequency)
+	fc.Result = res
+	return ec.marshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoanRequest_repaymentFrequency(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoanRequest",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type RepaymentFrequency does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2861,6 +3621,8 @@ func (ec *executionContext) fieldContext_Mutation_createLoanRequest(ctx context.
 				return ec.fieldContext_LoanRequest_term(ctx, field)
 			case "interestRate":
 				return ec.fieldContext_LoanRequest_interestRate(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_LoanRequest_createdAt(ctx, field)
 			case "updatedAt":
@@ -2987,6 +3749,8 @@ func (ec *executionContext) fieldContext_Mutation_createLoanOffer(ctx context.Co
 				return ec.fieldContext_LoanOffer_interestRate(ctx, field)
 			case "term":
 				return ec.fieldContext_LoanOffer_term(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
 			case "status":
 				return ec.fieldContext_LoanOffer_status(ctx, field)
 			case "expiresAt":
@@ -3127,6 +3891,14 @@ func (ec *executionContext) fieldContext_Mutation_acceptLoanOffer(ctx context.Co
 				return ec.fieldContext_Loan_nextPaymentDue(ctx, field)
 			case "remainingBalance":
 				return ec.fieldContext_Loan_remainingBalance(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+			case "installments":
+				return ec.fieldContext_Loan_installments(ctx, field)
+			case "totalInterest":
+				return ec.fieldContext_Loan_totalInterest(ctx, field)
+			case "totalRepayment":
+				return ec.fieldContext_Loan_totalRepayment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Loan_createdAt(ctx, field)
 			case "updatedAt":
@@ -3200,6 +3972,8 @@ func (ec *executionContext) fieldContext_Mutation_makePayment(ctx context.Contex
 				return ec.fieldContext_Payment_status(ctx, field)
 			case "paidAt":
 				return ec.fieldContext_Payment_paidAt(ctx, field)
+			case "installment":
+				return ec.fieldContext_Payment_installment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Payment_createdAt(ctx, field)
 			case "updatedAt":
@@ -3394,6 +4168,14 @@ func (ec *executionContext) fieldContext_Payment_loan(_ context.Context, field g
 				return ec.fieldContext_Loan_nextPaymentDue(ctx, field)
 			case "remainingBalance":
 				return ec.fieldContext_Loan_remainingBalance(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+			case "installments":
+				return ec.fieldContext_Loan_installments(ctx, field)
+			case "totalInterest":
+				return ec.fieldContext_Loan_totalInterest(ctx, field)
+			case "totalRepayment":
+				return ec.fieldContext_Loan_totalRepayment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Loan_createdAt(ctx, field)
 			case "updatedAt":
@@ -3573,6 +4355,65 @@ func (ec *executionContext) fieldContext_Payment_paidAt(_ context.Context, field
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Payment_installment(ctx context.Context, field graphql.CollectedField, obj *model.Payment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Payment_installment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Installment, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Installment)
+	fc.Result = res
+	return ec.marshalOInstallment2ᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Payment_installment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Payment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "dueDate":
+				return ec.fieldContext_Installment_dueDate(ctx, field)
+			case "amount":
+				return ec.fieldContext_Installment_amount(ctx, field)
+			case "principal":
+				return ec.fieldContext_Installment_principal(ctx, field)
+			case "interest":
+				return ec.fieldContext_Installment_interest(ctx, field)
+			case "status":
+				return ec.fieldContext_Installment_status(ctx, field)
+			case "paidAt":
+				return ec.fieldContext_Installment_paidAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Installment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Installment_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Installment", field.Name)
 		},
 	}
 	return fc, nil
@@ -3774,6 +4615,8 @@ func (ec *executionContext) fieldContext_Query_myLoanRequests(_ context.Context,
 				return ec.fieldContext_LoanRequest_term(ctx, field)
 			case "interestRate":
 				return ec.fieldContext_LoanRequest_interestRate(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_LoanRequest_createdAt(ctx, field)
 			case "updatedAt":
@@ -3834,6 +4677,8 @@ func (ec *executionContext) fieldContext_Query_myLoanOffers(_ context.Context, f
 				return ec.fieldContext_LoanOffer_interestRate(ctx, field)
 			case "term":
 				return ec.fieldContext_LoanOffer_term(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
 			case "status":
 				return ec.fieldContext_LoanOffer_status(ctx, field)
 			case "expiresAt":
@@ -3908,6 +4753,14 @@ func (ec *executionContext) fieldContext_Query_myActiveLoans(_ context.Context, 
 				return ec.fieldContext_Loan_nextPaymentDue(ctx, field)
 			case "remainingBalance":
 				return ec.fieldContext_Loan_remainingBalance(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+			case "installments":
+				return ec.fieldContext_Loan_installments(ctx, field)
+			case "totalInterest":
+				return ec.fieldContext_Loan_totalInterest(ctx, field)
+			case "totalRepayment":
+				return ec.fieldContext_Loan_totalRepayment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Loan_createdAt(ctx, field)
 			case "updatedAt":
@@ -3972,6 +4825,8 @@ func (ec *executionContext) fieldContext_Query_availableLoanRequests(_ context.C
 				return ec.fieldContext_LoanRequest_term(ctx, field)
 			case "interestRate":
 				return ec.fieldContext_LoanRequest_interestRate(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_LoanRequest_createdAt(ctx, field)
 			case "updatedAt":
@@ -4032,6 +4887,8 @@ func (ec *executionContext) fieldContext_Query_availableLoanOffers(_ context.Con
 				return ec.fieldContext_LoanOffer_interestRate(ctx, field)
 			case "term":
 				return ec.fieldContext_LoanOffer_term(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
 			case "status":
 				return ec.fieldContext_LoanOffer_status(ctx, field)
 			case "expiresAt":
@@ -4106,6 +4963,14 @@ func (ec *executionContext) fieldContext_Query_allLoans(_ context.Context, field
 				return ec.fieldContext_Loan_nextPaymentDue(ctx, field)
 			case "remainingBalance":
 				return ec.fieldContext_Loan_remainingBalance(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+			case "installments":
+				return ec.fieldContext_Loan_installments(ctx, field)
+			case "totalInterest":
+				return ec.fieldContext_Loan_totalInterest(ctx, field)
+			case "totalRepayment":
+				return ec.fieldContext_Loan_totalRepayment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Loan_createdAt(ctx, field)
 			case "updatedAt":
@@ -4373,6 +5238,8 @@ func (ec *executionContext) fieldContext_Subscription_loanRequestCreated(_ conte
 				return ec.fieldContext_LoanRequest_term(ctx, field)
 			case "interestRate":
 				return ec.fieldContext_LoanRequest_interestRate(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanRequest_repaymentFrequency(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_LoanRequest_createdAt(ctx, field)
 			case "updatedAt":
@@ -4447,6 +5314,8 @@ func (ec *executionContext) fieldContext_Subscription_loanOfferCreated(_ context
 				return ec.fieldContext_LoanOffer_interestRate(ctx, field)
 			case "term":
 				return ec.fieldContext_LoanOffer_term(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_LoanOffer_repaymentFrequency(ctx, field)
 			case "status":
 				return ec.fieldContext_LoanOffer_status(ctx, field)
 			case "expiresAt":
@@ -4535,6 +5404,14 @@ func (ec *executionContext) fieldContext_Subscription_loanStatusChanged(ctx cont
 				return ec.fieldContext_Loan_nextPaymentDue(ctx, field)
 			case "remainingBalance":
 				return ec.fieldContext_Loan_remainingBalance(ctx, field)
+			case "repaymentFrequency":
+				return ec.fieldContext_Loan_repaymentFrequency(ctx, field)
+			case "installments":
+				return ec.fieldContext_Loan_installments(ctx, field)
+			case "totalInterest":
+				return ec.fieldContext_Loan_totalInterest(ctx, field)
+			case "totalRepayment":
+				return ec.fieldContext_Loan_totalRepayment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Loan_createdAt(ctx, field)
 			case "updatedAt":
@@ -4622,6 +5499,8 @@ func (ec *executionContext) fieldContext_Subscription_paymentReceived(ctx contex
 				return ec.fieldContext_Payment_status(ctx, field)
 			case "paidAt":
 				return ec.fieldContext_Payment_paidAt(ctx, field)
+			case "installment":
+				return ec.fieldContext_Payment_installment(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Payment_createdAt(ctx, field)
 			case "updatedAt":
@@ -6890,7 +7769,7 @@ func (ec *executionContext) unmarshalInputCreateLoanOfferInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"amount", "interestRate", "term", "expiresAt"}
+	fieldsInOrder := [...]string{"amount", "interestRate", "term", "expiresAt", "repaymentFrequency"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -6925,6 +7804,13 @@ func (ec *executionContext) unmarshalInputCreateLoanOfferInput(ctx context.Conte
 				return it, err
 			}
 			it.ExpiresAt = data
+		case "repaymentFrequency":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("repaymentFrequency"))
+			data, err := ec.unmarshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RepaymentFrequency = data
 		}
 	}
 
@@ -6938,7 +7824,7 @@ func (ec *executionContext) unmarshalInputCreateLoanRequestInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"amount", "purpose", "term", "maxInterestRate"}
+	fieldsInOrder := [...]string{"amount", "purpose", "term", "maxInterestRate", "repaymentFrequency"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -6961,7 +7847,7 @@ func (ec *executionContext) unmarshalInputCreateLoanRequestInput(ctx context.Con
 			it.Purpose = data
 		case "term":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("term"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalNInt2int32(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6973,6 +7859,13 @@ func (ec *executionContext) unmarshalInputCreateLoanRequestInput(ctx context.Con
 				return it, err
 			}
 			it.MaxInterestRate = data
+		case "repaymentFrequency":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("repaymentFrequency"))
+			data, err := ec.unmarshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RepaymentFrequency = data
 		}
 	}
 
@@ -7140,6 +8033,77 @@ func (ec *executionContext) _AuthResponse(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var installmentImplementors = []string{"Installment"}
+
+func (ec *executionContext) _Installment(ctx context.Context, sel ast.SelectionSet, obj *model.Installment) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, installmentImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Installment")
+		case "dueDate":
+			out.Values[i] = ec._Installment_dueDate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "amount":
+			out.Values[i] = ec._Installment_amount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "principal":
+			out.Values[i] = ec._Installment_principal(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "interest":
+			out.Values[i] = ec._Installment_interest(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "status":
+			out.Values[i] = ec._Installment_status(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "paidAt":
+			out.Values[i] = ec._Installment_paidAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._Installment_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._Installment_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var loanImplementors = []string{"Loan"}
 
 func (ec *executionContext) _Loan(ctx context.Context, sel ast.SelectionSet, obj *model.Loan) graphql.Marshaler {
@@ -7195,6 +8159,26 @@ func (ec *executionContext) _Loan(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._Loan_nextPaymentDue(ctx, field, obj)
 		case "remainingBalance":
 			out.Values[i] = ec._Loan_remainingBalance(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "repaymentFrequency":
+			out.Values[i] = ec._Loan_repaymentFrequency(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "installments":
+			out.Values[i] = ec._Loan_installments(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalInterest":
+			out.Values[i] = ec._Loan_totalInterest(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalRepayment":
+			out.Values[i] = ec._Loan_totalRepayment(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -7311,6 +8295,11 @@ func (ec *executionContext) _LoanOffer(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "repaymentFrequency":
+			out.Values[i] = ec._LoanOffer_repaymentFrequency(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "status":
 			out.Values[i] = ec._LoanOffer_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -7394,6 +8383,11 @@ func (ec *executionContext) _LoanRequest(ctx context.Context, sel ast.SelectionS
 			}
 		case "interestRate":
 			out.Values[i] = ec._LoanRequest_interestRate(ctx, field, obj)
+		case "repaymentFrequency":
+			out.Values[i] = ec._LoanRequest_repaymentFrequency(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createdAt":
 			out.Values[i] = ec._LoanRequest_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -7570,6 +8564,8 @@ func (ec *executionContext) _Payment(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "paidAt":
 			out.Values[i] = ec._Payment_paidAt(ctx, field, obj)
+		case "installment":
+			out.Values[i] = ec._Payment_installment(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Payment_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -8325,6 +9321,60 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
+func (ec *executionContext) marshalNInstallment2ᚕᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallmentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Installment) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNInstallment2ᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallment(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNInstallment2ᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallment(ctx context.Context, sel ast.SelectionSet, v *model.Installment) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Installment(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNInt2int32(ctx context.Context, v any) (int32, error) {
 	res, err := graphql.UnmarshalInt32(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -8616,6 +9666,16 @@ func (ec *executionContext) marshalNPaymentStatus2githubᚗcomᚋdmytroMai20ᚋD
 func (ec *executionContext) unmarshalNRegisterInput2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRegisterInput(ctx context.Context, v any) (model.RegisterInput, error) {
 	res, err := ec.unmarshalInputRegisterInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx context.Context, v any) (model.RepaymentFrequency, error) {
+	var res model.RepaymentFrequency
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNRepaymentFrequency2githubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐRepaymentFrequency(ctx context.Context, sel ast.SelectionSet, v model.RepaymentFrequency) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v any) (string, error) {
@@ -9006,6 +10066,13 @@ func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel as
 	_ = sel
 	res := graphql.MarshalFloatContext(*v)
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) marshalOInstallment2ᚖgithubᚗcomᚋdmytroMai20ᚋDaneoᚋgraphᚋmodelᚐInstallment(ctx context.Context, sel ast.SelectionSet, v *model.Installment) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Installment(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOInt2ᚖint32(ctx context.Context, v any) (*int32, error) {
