@@ -18,8 +18,9 @@ type LoanRequest {
   amount: Float!
   purpose: String
   status: LoanStatus!
-  term: Time!  # in months
+  term: Int!  # in months
   interestRate: Float  # expected max interest rate
+  repaymentFrequency: RepaymentFrequency!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -30,6 +31,7 @@ type LoanOffer {
   amount: Float!
   interestRate: Float!
   term: Int!  # in months
+  repaymentFrequency: RepaymentFrequency!
   status: OfferStatus!
   expiresAt: Time!
   createdAt: Time!
@@ -47,6 +49,21 @@ type Loan {
   payments: [Payment!]!
   nextPaymentDue: Time
   remainingBalance: Float!
+  repaymentFrequency: RepaymentFrequency!
+  installments: [Installment!]!
+  totalInterest: Float!
+  totalRepayment: Float!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Installment {
+  dueDate: Time!
+  amount: Float!
+  principal: Float!
+  interest: Float!
+  status: PaymentStatus!
+  paidAt: Time
   createdAt: Time!
   updatedAt: Time!
 }
@@ -58,11 +75,21 @@ type Payment {
   dueDate: Time!
   status: PaymentStatus!
   paidAt: Time
+  installment: Installment
   createdAt: Time!
   updatedAt: Time!
 }
 
 # Enums
+enum RepaymentFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
 enum LoanStatus {
   PENDING
   ACTIVE
@@ -102,15 +129,17 @@ input LoginInput {
 input CreateLoanRequestInput {
   amount: Float!
   purpose: String
-  term: Time!
+  term: Int!  # in months
   maxInterestRate: Float
+  repaymentFrequency: RepaymentFrequency!
 }
 
 input CreateLoanOfferInput {
   amount: Float!
   interestRate: Float!
-  term: Int!
+  term: Int!  # in months
   expiresAt: Time!
+  repaymentFrequency: RepaymentFrequency!
 }
 
 input AcceptLoanOfferInput {

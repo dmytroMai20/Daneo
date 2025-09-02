@@ -1,21 +1,19 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom"
-import Dashboard from './pages/Dashboard'
-import Login from './pages/Login'
-import Navbar from "./components/NavBar"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Navbar from "./components/NavBar";
 
 function App() {
   return (
     <BrowserRouter>
-    {/* Navigation */}
-    <Navbar />
+      <Navbar />
 
-    {/* Routes */}
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
-  </BrowserRouter>
-  )
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

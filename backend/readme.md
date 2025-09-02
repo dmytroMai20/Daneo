@@ -12,6 +12,11 @@ Supabase SDK only for auth
 
 ## GraphQL: gqlgen
 
+To regenerate code after altering schema run:
+```
+go run github.com/99designs/gqlgen generate
+```
+
 ## Linter: golangci-lint
 
 ## Backend-controlled subscriptions

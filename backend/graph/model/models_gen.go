@@ -20,32 +20,49 @@ type AuthResponse struct {
 }
 
 type CreateLoanOfferInput struct {
-	Amount       float64   `json:"amount"`
-	InterestRate float64   `json:"interestRate"`
-	Term         int32     `json:"term"`
-	ExpiresAt    time.Time `json:"expiresAt"`
+	Amount             float64            `json:"amount"`
+	InterestRate       float64            `json:"interestRate"`
+	Term               int32              `json:"term"`
+	ExpiresAt          time.Time          `json:"expiresAt"`
+	RepaymentFrequency RepaymentFrequency `json:"repaymentFrequency"`
 }
 
 type CreateLoanRequestInput struct {
-	Amount          float64   `json:"amount"`
-	Purpose         *string   `json:"purpose,omitempty"`
-	Term            time.Time `json:"term"`
-	MaxInterestRate *float64  `json:"maxInterestRate,omitempty"`
+	Amount             float64            `json:"amount"`
+	Purpose            *string            `json:"purpose,omitempty"`
+	Term               int32              `json:"term"`
+	MaxInterestRate    *float64           `json:"maxInterestRate,omitempty"`
+	RepaymentFrequency RepaymentFrequency `json:"repaymentFrequency"`
+}
+
+type Installment struct {
+	DueDate   time.Time     `json:"dueDate"`
+	Amount    float64       `json:"amount"`
+	Principal float64       `json:"principal"`
+	Interest  float64       `json:"interest"`
+	Status    PaymentStatus `json:"status"`
+	PaidAt    *time.Time    `json:"paidAt,omitempty"`
+	CreatedAt time.Time     `json:"createdAt"`
+	UpdatedAt time.Time     `json:"updatedAt"`
 }
 
 type Loan struct {
-	ID               string     `json:"id"`
-	Borrower         *User      `json:"borrower"`
-	Lender           *User      `json:"lender"`
-	Amount           float64    `json:"amount"`
-	InterestRate     float64    `json:"interestRate"`
-	Term             int32      `json:"term"`
-	Status           LoanStatus `json:"status"`
-	Payments         []*Payment `json:"payments"`
-	NextPaymentDue   *time.Time `json:"nextPaymentDue,omitempty"`
-	RemainingBalance float64    `json:"remainingBalance"`
-	CreatedAt        time.Time  `json:"createdAt"`
-	UpdatedAt        time.Time  `json:"updatedAt"`
+	ID                 string             `json:"id"`
+	Borrower           *User              `json:"borrower"`
+	Lender             *User              `json:"lender"`
+	Amount             float64            `json:"amount"`
+	InterestRate       float64            `json:"interestRate"`
+	Term               int32              `json:"term"`
+	Status             LoanStatus         `json:"status"`
+	Payments           []*Payment         `json:"payments"`
+	NextPaymentDue     *time.Time         `json:"nextPaymentDue,omitempty"`
+	RemainingBalance   float64            `json:"remainingBalance"`
+	RepaymentFrequency RepaymentFrequency `json:"repaymentFrequency"`
+	Installments       []*Installment     `json:"installments"`
+	TotalInterest      float64            `json:"totalInterest"`
+	TotalRepayment     float64            `json:"totalRepayment"`
+	CreatedAt          time.Time          `json:"createdAt"`
+	UpdatedAt          time.Time          `json:"updatedAt"`
 }
 
 type LoanMatch struct {
@@ -54,27 +71,29 @@ type LoanMatch struct {
 }
 
 type LoanOffer struct {
-	ID           string      `json:"id"`
-	Lender       *User       `json:"lender"`
-	Amount       float64     `json:"amount"`
-	InterestRate float64     `json:"interestRate"`
-	Term         int32       `json:"term"`
-	Status       OfferStatus `json:"status"`
-	ExpiresAt    time.Time   `json:"expiresAt"`
-	CreatedAt    time.Time   `json:"createdAt"`
-	UpdatedAt    time.Time   `json:"updatedAt"`
+	ID                 string             `json:"id"`
+	Lender             *User              `json:"lender"`
+	Amount             float64            `json:"amount"`
+	InterestRate       float64            `json:"interestRate"`
+	Term               int32              `json:"term"`
+	RepaymentFrequency RepaymentFrequency `json:"repaymentFrequency"`
+	Status             OfferStatus        `json:"status"`
+	ExpiresAt          time.Time          `json:"expiresAt"`
+	CreatedAt          time.Time          `json:"createdAt"`
+	UpdatedAt          time.Time          `json:"updatedAt"`
 }
 
 type LoanRequest struct {
-	ID           string     `json:"id"`
-	User         *User      `json:"user"`
-	Amount       float64    `json:"amount"`
-	Purpose      *string    `json:"purpose,omitempty"`
-	Status       LoanStatus `json:"status"`
-	Term         time.Time  `json:"term"`
-	InterestRate *float64   `json:"interestRate,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt"`
-	UpdatedAt    time.Time  `json:"updatedAt"`
+	ID                 string             `json:"id"`
+	User               *User              `json:"user"`
+	Amount             float64            `json:"amount"`
+	Purpose            *string            `json:"purpose,omitempty"`
+	Status             LoanStatus         `json:"status"`
+	Term               int32              `json:"term"`
+	InterestRate       *float64           `json:"interestRate,omitempty"`
+	RepaymentFrequency RepaymentFrequency `json:"repaymentFrequency"`
+	CreatedAt          time.Time          `json:"createdAt"`
+	UpdatedAt          time.Time          `json:"updatedAt"`
 }
 
 type LoginInput struct {
@@ -91,14 +110,15 @@ type Mutation struct {
 }
 
 type Payment struct {
-	ID        string        `json:"id"`
-	Loan      *Loan         `json:"loan"`
-	Amount    float64       `json:"amount"`
-	DueDate   time.Time     `json:"dueDate"`
-	Status    PaymentStatus `json:"status"`
-	PaidAt    *time.Time    `json:"paidAt,omitempty"`
-	CreatedAt time.Time     `json:"createdAt"`
-	UpdatedAt time.Time     `json:"updatedAt"`
+	ID          string        `json:"id"`
+	Loan        *Loan         `json:"loan"`
+	Amount      float64       `json:"amount"`
+	DueDate     time.Time     `json:"dueDate"`
+	Status      PaymentStatus `json:"status"`
+	PaidAt      *time.Time    `json:"paidAt,omitempty"`
+	Installment *Installment  `json:"installment,omitempty"`
+	CreatedAt   time.Time     `json:"createdAt"`
+	UpdatedAt   time.Time     `json:"updatedAt"`
 }
 
 type Query struct {
@@ -300,6 +320,69 @@ func (e *PaymentStatus) UnmarshalJSON(b []byte) error {
 }
 
 func (e PaymentStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RepaymentFrequency string
+
+const (
+	RepaymentFrequencyDaily     RepaymentFrequency = "DAILY"
+	RepaymentFrequencyWeekly    RepaymentFrequency = "WEEKLY"
+	RepaymentFrequencyBiweekly  RepaymentFrequency = "BIWEEKLY"
+	RepaymentFrequencyMonthly   RepaymentFrequency = "MONTHLY"
+	RepaymentFrequencyQuarterly RepaymentFrequency = "QUARTERLY"
+	RepaymentFrequencyYearly    RepaymentFrequency = "YEARLY"
+)
+
+var AllRepaymentFrequency = []RepaymentFrequency{
+	RepaymentFrequencyDaily,
+	RepaymentFrequencyWeekly,
+	RepaymentFrequencyBiweekly,
+	RepaymentFrequencyMonthly,
+	RepaymentFrequencyQuarterly,
+	RepaymentFrequencyYearly,
+}
+
+func (e RepaymentFrequency) IsValid() bool {
+	switch e {
+	case RepaymentFrequencyDaily, RepaymentFrequencyWeekly, RepaymentFrequencyBiweekly, RepaymentFrequencyMonthly, RepaymentFrequencyQuarterly, RepaymentFrequencyYearly:
+		return true
+	}
+	return false
+}
+
+func (e RepaymentFrequency) String() string {
+	return string(e)
+}
+
+func (e *RepaymentFrequency) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RepaymentFrequency(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RepaymentFrequency", str)
+	}
+	return nil
+}
+
+func (e RepaymentFrequency) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RepaymentFrequency) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RepaymentFrequency) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

@@ -45,11 +45,11 @@ func (r *mutationResolver) CreateLoanRequest(ctx context.Context, input model.Cr
 
 	var loanRequest model.LoanRequest
 	err = tx.QueryRow(ctx, `
-		INSERT INTO loan_requests (user_id, amount, purpose, term, interest_rate, status)
-		VALUES ($1, $2, $3, $4, $5, 'PENDING')
-		RETURNING id, created_at, updated_at
-	`, userID, input.Amount, input.Purpose, input.Term, input.MaxInterestRate).
-		Scan(&loanRequest.ID, &loanRequest.CreatedAt, &loanRequest.UpdatedAt)
+		INSERT INTO loan_requests (user_id, amount, purpose, term, interest_rate, status, repayment_frequency)
+		VALUES ($1, $2, $3, $4, $5, 'PENDING', $6)
+		RETURNING id, created_at, updated_at, repayment_frequency
+	`, userID, input.Amount, input.Purpose, input.Term, input.MaxInterestRate, input.RepaymentFrequency).
+		Scan(&loanRequest.ID, &loanRequest.CreatedAt, &loanRequest.UpdatedAt, &loanRequest.RepaymentFrequency)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to create loan request: %v", err)
@@ -125,7 +125,63 @@ func (r *queryResolver) MyActiveLoans(ctx context.Context) ([]*model.Loan, error
 
 // AvailableLoanRequests is the resolver for the availableLoanRequests field.
 func (r *queryResolver) AvailableLoanRequests(ctx context.Context) ([]*model.LoanRequest, error) {
-	panic(fmt.Errorf("not implemented: AvailableLoanRequests - availableLoanRequests"))
+	pool, ok := ctx.Value(models.DBContextKey).(*pgxpool.Pool)
+	if !ok || pool == nil {
+		return nil, fmt.Errorf("database connection not available")
+	}
+
+	tx, err := pool.Begin(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to begin transaction: %v", err)
+	}
+	defer tx.Rollback(ctx)
+
+	query := `
+		SELECT id, amount, term, purpose, interest_rate, status, user_id, repayment_frequency, created_at, updated_at
+		FROM loan_requests
+		WHERE status = $1
+		ORDER BY created_at DESC
+	`
+	rows, err := tx.Query(ctx, query, "PENDING")
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to query loan requests: %v", err)
+	}
+	defer rows.Close()
+
+	var loanRequests []*model.LoanRequest
+	for rows.Next() {
+		var lr model.LoanRequest
+		lr.User = &model.User{} // Initialize the User struct
+
+		err := rows.Scan(
+			&lr.ID,
+			&lr.Amount,
+			&lr.Term,
+			&lr.Purpose,
+			&lr.InterestRate,
+			&lr.Status,
+			&lr.User.ID,
+			&lr.RepaymentFrequency,
+			&lr.CreatedAt,
+			&lr.UpdatedAt,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan loan request: %v", err)
+		}
+
+		loanRequests = append(loanRequests, &lr)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating rows: %v", err)
+	}
+
+	if err = tx.Commit(ctx); err != nil {
+		return nil, fmt.Errorf("failed to commit transaction: %v", err)
+	}
+
+	return loanRequests, nil
 }
 
 // AvailableLoanOffers is the resolver for the availableLoanOffers field.
