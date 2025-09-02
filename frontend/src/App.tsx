@@ -6,10 +6,8 @@ import Navbar from "./components/NavBar";
 function App() {
   return (
     <BrowserRouter>
-      {/* Navigation */}
       <Navbar />
 
-      {/* Routes */}
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
