@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // could be spinner
+    return <div>Loading...</div>;
   }
 
   if (!user) {

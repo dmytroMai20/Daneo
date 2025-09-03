@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { LoginForm } from "../components/login-form";
 import { useNavigate } from "react-router-dom";
-import supabase from "../utils/supabaseClient";
+import { useAuth } from "../auth/AuthContext";
 
 const Login: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const { session, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        if (session) {
-          navigate("/profile");
-        }
-      } catch (error) {
-        console.error("Error checking session:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkSession();
-  }, [navigate]);
+    if (session) {
+      navigate("/profile");
+    }
+  }, [session, navigate]);
 
   if (loading) {
     return (

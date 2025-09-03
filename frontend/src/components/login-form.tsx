@@ -50,6 +50,12 @@ export function LoginForm({
       setLoading(false);
     }
   }
+  const handleToggleAuthMode = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLogin(!isLogin);
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -80,12 +86,15 @@ export function LoginForm({
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                  {isLogin && (
+                    <a
+                      href="#"
+                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      Forgot your password?
+                    </a>
+                  )}
                 </div>
                 <Input
                   id="password"
@@ -93,7 +102,7 @@ export function LoginForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  minLength={4}
+                  minLength={4} // Change to 8 for production
                 />
               </div>
               {error && (
@@ -112,9 +121,10 @@ export function LoginForm({
                 ? "Don't have an account? "
                 : "Already have an account? "}
               <Button
+                type="button"
                 variant="link"
-                className="underline underline-offset-4"
-                onClick={() => setIsLogin(!isLogin)}
+                className="underline underline-offset-4 p-0 h-auto"
+                onClick={handleToggleAuthMode}
               >
                 {isLogin ? "Sign up" : "Login"}
               </Button>
