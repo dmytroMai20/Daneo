@@ -44,8 +44,12 @@ export function LoginForm({
           setError("Please check your email to confirm your signup!");
         }
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred. Please try again.");
+    } catch (err: Error | unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred. Please try again.",
+      );
     } finally {
       setLoading(false);
     }

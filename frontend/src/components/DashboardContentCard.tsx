@@ -2,28 +2,9 @@ import React from "react";
 import { Card, CardHeader, CardContent, CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import type { DashboardContentCardProps } from "@/types/loan";
 
-interface User {
-  id: string;
-  name?: string;
-  rating?: number;
-}
-
-export interface LoanRequest {
-  id: string;
-  amount: number;
-  term: number;
-  interestRate: number;
-  status: "PENDING" | "APPROVED" | "REJECTED" | "PAID";
-  purpose: string;
-  repaymentFrequency: "WEEKLY" | "BIWEEKLY" | "MONTHLY";
-  user: User;
-}
-
-interface DashboardContentCardProps {
-  loanRequest: LoanRequest;
-  onLend?: (loanRequestId: string) => void;
-}
+export type { DashboardContentCardProps };
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-US", {
