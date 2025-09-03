@@ -8,13 +8,20 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
+import supabase from "../utils/supabaseClient";
+import { useAuth } from "../auth/AuthContext";
 
 const Navbar: React.FC = () => {
+  const { user } = useAuth();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
   return (
     <div className="w-full border-b">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 relative">
-        <NavigationMenu viewport={false}>
-          <NavigationMenuList className="gap-2">
+      <div className="container mx-auto flex h-16 items-center px-4 relative">
+        <NavigationMenu viewport={false} className="flex-1">
+          <NavigationMenuList className="flex w-full justify-start items-center">
             <NavigationMenuItem>
               <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -141,13 +148,22 @@ const Navbar: React.FC = () => {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-              >
-                <Link to="/login">Login</Link>
-              </NavigationMenuLink>
+            <NavigationMenuItem className="ml-auto">
+              {user ? (
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <NavigationMenuLink
+                  asChild
+                  className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                >
+                  <Link to="/login">Login</Link>
+                </NavigationMenuLink>
+              )}
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
