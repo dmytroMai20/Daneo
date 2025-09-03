@@ -1,4 +1,7 @@
 # Daneo
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/dmytroMai20/Daneo/ci.yml)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dmytroMai20/Daneo)
+![GitHub pull request activity](https://img.shields.io/github/issues-pr/dmytroMai20/Daneo)
 
 Online platform for peer-to-peer financial transactions.
 
@@ -7,13 +10,13 @@ Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
 ## Tech Stack
 
 - Backend: Go
-- Frontend: React
-- Database: Supabase
+- Frontend: Vite React (SWC)
+- Database: Postgresql (Supabase)
 - GraphQL: gqlgen
 - Router: Gin
-- Authentication: JWT
-- Linter: golangci-lint
-- development environment: docker
+- Authentication: JWT with Supabase
+- Linters: golangci-lint, eslint, prettier
+- Development environment: docker
 
 ## Deployment
 
@@ -23,23 +26,7 @@ Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
 - AWS Lambda for backend
 - AWS API Gateway for API
 
-## Features
-
-- User registration and login
-- User profile management
-- User transaction management
-- User transaction history
-- User transaction search
-- User transaction filtering
-- User transaction sorting
-- User transaction pagination
-- User transaction export
-- User transaction import
-- User transaction export to CSV
-- User transaction import from CSV
-
-
-# Daneo Venture (potential extension)
+## Daneo Venture (potential extension)
 
 Platform for VC funds to manage their portfolio. Track investments, monitor performance, and make informed decisions.
 Integrates seamlessly with Daneo, allowing users to manage their investments and transactions in one place.
