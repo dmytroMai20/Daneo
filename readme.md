@@ -5,7 +5,11 @@
 
 Online platform for peer-to-peer financial transactions.
 
-Jira: https://daneo.atlassian.net/jira/software/projects/SCRUM/summary
+Jira board: [Jira Board](https://daneo.atlassian.net/jira/software/projects/SCRUM/summary)
+
+## Development
+
+Development conventions on: [Development Conventions](https://daneo.atlassian.net/wiki/x/wQEB)
 
 ## Tech Stack
 
