@@ -3,9 +3,12 @@ import { useQuery } from "@apollo/client/react";
 import DashboardContentCard from "./DashboardContentCard";
 import { GET_AVAILABLE_LOAN_REQUESTS } from "../graphql/queries";
 import { Loader2 } from "lucide-react";
+import type { ApiLoanRequest, LoanRequest } from "@/types/loan";
 
 const DashboardContent: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_AVAILABLE_LOAN_REQUESTS);
+  const { loading, error, data } = useQuery<{
+    availableLoanRequests: ApiLoanRequest[];
+  }>(GET_AVAILABLE_LOAN_REQUESTS);
 
   const handleLend = (loanRequestId: string) => {
     console.log("Lend clicked for loan request:", loanRequestId);
@@ -31,7 +34,16 @@ const DashboardContent: React.FC = () => {
     );
   }
 
-  const loanRequests = data?.availableLoanRequests || [];
+  const loanRequests: LoanRequest[] = (data?.availableLoanRequests || []).map(
+    (request: ApiLoanRequest) => ({
+      ...request,
+      user: {
+        id: request.user.id,
+        name: request.user.name || `User ${request.user.id}`,
+        rating: request.user.rating ?? undefined,
+      },
+    }),
+  );
 
   if (loanRequests.length === 0) {
     return (
@@ -45,17 +57,10 @@ const DashboardContent: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto p-4">
-      {loanRequests.map((request: any) => (
+      {loanRequests.map((request) => (
         <DashboardContentCard
           key={request.id}
-          loanRequest={{
-            ...request,
-            user: {
-              id: request.user.id,
-              name: request.user.name || `User ${request.user.id}`,
-              rating: request.user.rating,
-            },
-          }}
+          loanRequest={request}
           onLend={handleLend}
         />
       ))}

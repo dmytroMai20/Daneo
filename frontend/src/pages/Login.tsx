@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LoginForm } from "../components/login-form";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../auth/useAuth";
 
 const Login: React.FC = () => {
   const { session, loading } = useAuth();

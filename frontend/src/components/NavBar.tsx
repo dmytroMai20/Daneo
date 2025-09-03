@@ -9,7 +9,7 @@ import {
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
 import supabase from "../utils/supabaseClient";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../auth/useAuth";
 
 const Navbar: React.FC = () => {
   const { user } = useAuth();
