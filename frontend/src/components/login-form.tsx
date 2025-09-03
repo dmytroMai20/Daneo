@@ -71,7 +71,7 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="your.email@example.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -105,23 +105,19 @@ export function LoginForm({
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}
                 </Button>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                  onClick={() => setIsLogin(!isLogin)}
-                >
-                  {isLogin
-                    ? "Need an account? Sign up"
-                    : "Already have an account? Login"}
-                </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
+              {isLogin
+                ? "Don't have an account? "
+                : "Already have an account? "}
+              <Button
+                variant="link"
+                className="underline underline-offset-4"
+                onClick={() => setIsLogin(!isLogin)}
+              >
+                {isLogin ? "Sign up" : "Login"}
+              </Button>
             </div>
           </form>
         </CardContent>

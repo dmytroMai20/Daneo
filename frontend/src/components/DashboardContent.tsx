@@ -25,7 +25,7 @@ const DashboardContent: React.FC = () => {
     return (
       <div className="p-4">
         <div className="bg-red-50 border-l-4 border-red-500 p-4">
-          <p>Error {error.message}</p>
+          <p>Error</p>
         </div>
       </div>
     );
