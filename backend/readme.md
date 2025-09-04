@@ -2,7 +2,7 @@
 
 ## Router: Gin router
 
-## Authentication: JWT
+## Authentication: JWT 
 
 ## Database: Supabase
 
@@ -28,3 +28,9 @@ Backend applies business logic + filtering.
 Backend emits GraphQL subscriptions to frontend clients.
 
 Keeps DB private.
+
+## Useful links
+
+[Go Proverbs](https://go-proverbs.github.io/)
+
+[Go Concurrency Patterns](https://go.dev/talks/2012/concurrency.slide)
