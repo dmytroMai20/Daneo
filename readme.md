@@ -7,7 +7,7 @@ Online platform for peer-to-peer financial transactions.
 
 ## Links
 
-Development conventions on: [Development Conventions](https://daneo.atlassian.net/wiki/x/wQEB)
+[Development Conventions for this project](https://daneo.atlassian.net/wiki/x/wQEB)
 
 [Jira Board](https://daneo.atlassian.net/jira/software/projects/SCRUM/summary)
 
@@ -15,7 +15,7 @@ Development conventions on: [Development Conventions](https://daneo.atlassian.ne
 
 ### Prerequisites
 - Go >= 1.xx
-- Node.js >= 18
+- Node.js >= 20
 - Supabase CLI (optional, for local db emulation)
 
 ### Setup

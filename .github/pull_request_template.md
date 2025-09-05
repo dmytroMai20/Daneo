@@ -42,6 +42,7 @@ Jira Ticket: [DAN-###](https://daneo.atlassian.net/jira/software/projects/DAN/bo
 - [ ] Code follows project conventions (naming, formatting, etc.)
 - [ ] Tests added/updated and passing
 - [ ] Documentation updated (if applicable)
+- [ ] Checked the diff and everything is correct
 - [ ] No sensitive data (keys, secrets, etc.) committed
 - [ ] Frontend builds and backend compiles without errors
 - [ ] Security implications reviewed
