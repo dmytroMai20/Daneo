@@ -9,7 +9,7 @@ Online platform for peer-to-peer financial transactions.
 
 [Development Conventions for this project](https://daneo.atlassian.net/wiki/x/wQEB)
 
-[Jira Board](https://daneo.atlassian.net/jira/software/projects/SCRUM/summary)
+[Jira Board](https://daneo.atlassian.net/jira/software/projects/DAN/boards/1?atlOrigin=eyJpIjoiYWQ4MjQxZmFkMjMyNGEzOThlMjA5MDQ2MjJiODZmMzAiLCJwIjoiaiJ9)
 
 ## 🛠️ Local Development
 
